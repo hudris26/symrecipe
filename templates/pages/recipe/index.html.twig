@@ -10,6 +10,12 @@
 
 			<a href="{{ path('recipe.new')}}" class="btn btn-primary ">Ajouter mes recette</a>
 
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-dismissible alert-success mt-4">
+					{{ message }}
+				</div>
+			{% endfor %}
+
 			<div class="count mt-4">
 				<h4>
 					Il y a
@@ -40,7 +46,7 @@
 							<td>{{ (recipe.difficulty is null) ? 'Non renseigné': recipe.difficulty}}</td>
 							<td>{{recipe.createdAt|date("d/m/Y") }}</td>
 							<td>
-								Todo
+								<a href={{path('recipe.edit', {id: recipe.id} ) }} class="btn btn-info">Modifier</a>
 							</td>
 							<td>
 								Todo
