@@ -78,7 +78,7 @@ class RecipeController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Votre recette a modifié créé avec succès !'
+                'Votre recette a modifié avec succès !'
             );
 
             return $this->redirectToRoute('recipe.index');
@@ -86,5 +86,27 @@ class RecipeController extends AbstractController
         return $this->render('pages/recipe/edit.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+    #[Route('/recette/suppression/{id}', 'recipe.delete', methods: ['GET'])]
+    public function delete(
+        EntityManagerInterface $manager,
+        Recipe $recipe
+    ): Response {
+        if (!$recipe) {
+            $this->addFlash(
+                'warning',
+                'La recette en question n\'a pas été trouvé !'
+            );
+            return $this->redirectToRoute('recipe.index');
+        }
+        $manager->remove($recipe);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            'Votre recette a été suprimé avec succès !'
+        );
+
+        return $this->redirectToRoute('recipe.index');
     }
 }
